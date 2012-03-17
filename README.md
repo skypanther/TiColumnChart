@@ -1,6 +1,9 @@
-h1. Column Chart for Titanium
+Column Chart for Titanium
+========
 
 A dynamic column chart for Titanium w/out web views. Works on Android and iOS. Tested with Titanium 1.8.2 and various 2.0x CI builds.
+
+![Screenshot: TiColumnChart on iOS](https://skitch.com/skypanther/8k52s/ticolumnchart "TiColumnChart on iOS")
 
 You must set a width & height for the chart because these values are needed to calculate the layout of various views before the chart is rendered, thus that info can't be extracted programmatically. 
 
