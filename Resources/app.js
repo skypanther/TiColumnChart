@@ -22,7 +22,7 @@ var tab1 = Titanium.UI.createTab({
 });
 
 
-// define our chart, passing optional display params
+// define our chart, height & width required, others are optional
 var colchart = require('columnchart/columnchart').createChart({height:300, width: 320, top:20, left: 0});
 // add top & bottom titles
 colchart.addChartTopTitle('hello world');
