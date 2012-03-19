@@ -3,6 +3,7 @@
 	Titanium, cross-platform bar and column charting module
 
 */
+var isAndroid = (Ti.Platform.osname==='android');
 var defaults = {
 	height: 400,
 	width: 320,
@@ -17,7 +18,7 @@ var defaults = {
 	tickWidth:60,
 	tickFontSize: 12,
 	barColor: 'blue',
-	barBGGraphic: '/columnchart/gradient1.png',
+	barBGGraphic: (!isAndroid) ? '/columnchart/gradient1.png' : null,
 	barWidth: 80,
 	barSpacing: 4,
 	yAxisWidth: 60,
@@ -88,7 +89,6 @@ function createYAxis(params) {
 		ticks: [],
 		repositionTicks: function() {
 			for(var i=0,j=this.ticks.length;i<j;i++) {
-				//Ti.API.info('tick '+i+ ' top: ' + Math.ceil(this.view.size.height / j * i))
 				this.ticks[i].top = Math.floor(100/this.ticks.length * i) + '%';
 			}
 		},
@@ -188,8 +188,22 @@ function createColumn(params) {
 		height: (params.barBGHeight) ? params.barBGHeight : '100%',
 		backgroundColor: (params.barBGColor) ? params.barBGColor : 'transparent',
 		left: 0, right: 0,
-		bottom:0		
+		bottom:((params.xLabelHeight) ? params.xLabelHeight : defaults.xLabelHeight)-10		
 	});
+	var bgLabel = Ti.UI.createLabel({
+		height:30,
+		width:'100%',
+		text: '',
+		font: {
+			fontSize: (params.fontSize) ? params.fontSize : defaults.tickFontSize
+		},
+		color: (params.xLabelColor) ? params.xLabelColor : defaults.xLabelColor,
+		backgroundColor:'transparent',
+		textAlign:'center',
+		top:0,
+		zIndex:1
+	});
+	barWrapper.add(bgLabel);
 	barWrapper.add(barBG);
 	var bar = Ti.UI.createView({
 		width:'100%',
@@ -199,7 +213,8 @@ function createColumn(params) {
 		borderWidth: (params.borderWidth) ? params.borderWidth : 0,
 		borderColor: (params.borderColor) ? params.borderColor : 'transparent',
 		left: 0, right: 0,
-		bottom:32		
+		bottom:((params.xLabelHeight) ? params.xLabelHeight : defaults.xLabelHeight)-8,
+		zIndex:2
 	});
 	barWrapper.add(bar);
 	
@@ -210,7 +225,7 @@ function createColumn(params) {
 			
 		},
 		addBGLabel: function(text) {
-			
+			bgLabel.text = text;
 		},
 		addBarLabel: function(text) {
 			
@@ -279,14 +294,10 @@ var createChart = function(params){
 		columns: [],
 		repositionColumns: function() {
 			var chartWrapperWidth = ((params.width) ? params.width : defaults.width) - ((params.yAxisWidth) ? params.yAxisWidth : defaults.yAxisWidth);
-			Ti.API.info('chartWrapperWidth = ' + chartWrapperWidth)
 			var newWidth = (this.columns.length > 0) ? Math.floor(chartWrapperWidth/this.columns.length - defaults.barSpacing - defaults.yAxisLineWidth) : this.columns[0].origWidth;
-Ti.API.info('Math.floor(chartWrapperWidth/this.columns.length - defaults.barSpacing) = ' + Math.floor(chartWrapperWidth/this.columns.length - defaults.barSpacing))
-			Ti.API.info('newWidth / before = ' + newWidth)
 			if(newWidth > this.columns[0].origWidth) {
 				newWidth = this.columns[0].origWidth;
 			}
-			Ti.API.info('newWidth / after = ' + newWidth)
 			for(var i=0,j=this.columns.length;i<j;i++) {
 				this.columns[i].changeBarWidth(newWidth);
 				this.columns[i].view.left = (newWidth * i + i * defaults.barSpacing); 

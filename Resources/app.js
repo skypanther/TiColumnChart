@@ -36,8 +36,9 @@ colchart.addYAxis({yAxisLineColor:'black'});
 colchart.addXAxis({yAxisLineColor:'black'});
 
 // now add the columns to the chart
-colchart.addColumn({barValue:50});
+colchart.addColumn({barValue:50, barBGColor: '#ffffcc'});
 	colchart.columns[0].addXLabel('Foo');
+	colchart.columns[0].addBGLabel('Hi!');
 colchart.addColumn({barValue:50});
 	colchart.columns[1].addXLabel('Bar');
 	colchart.columns[1].barValue(50);
