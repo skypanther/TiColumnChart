@@ -13,20 +13,23 @@ var colchart = require('columnchart/columnchart').createChart({height:300, width
 // add top & bottom titles
 colchart.addChartTopTitle('hello world');
 colchart.addChartBottomTitle('goodbye world');
-// add the x & y axis
+// add the x & y axis, arg is optional
 colchart.addYAxis({yAxisLineColor:'black'});
-	colchart.yaxis.addTick('foo 1', true);
-	colchart.yaxis.addTick('foo 2', true);
-	colchart.yaxis.addTick('foo 3', true);
-	colchart.yaxis.addTick('foo 4', true);
-colchart.addXAxis({yAxisLineColor:'black'});
+colchart.addXAxis({xAxisLineColor:'black'});
+
+// add some "ticks" to y-axis with labels, will be evenly spaced
+colchart.yaxis.addTick('foo 1', true);
+colchart.yaxis.addTick('foo 2', true);
+colchart.yaxis.addTick('foo 3', true);
+colchart.yaxis.addTick('foo 4', true);
+
 
 // now add the columns to the chart
 colchart.addColumn({barValue:50});
+	// labels below columns are optional, added separately
 	colchart.columns[0].addXLabel('Foo');
 colchart.addColumn({barValue:50});
 	colchart.columns[1].addXLabel('Bar');
-	colchart.columns[1].barValue(50);
 colchart.addColumn({barColor:'red', barValue:75});
 	colchart.columns[2].addXLabel('Baz');
 colchart.addColumn({barColor:'red', barValue:75});
